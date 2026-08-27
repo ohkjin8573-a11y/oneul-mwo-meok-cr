@@ -245,7 +245,7 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
 </div>
 
 <footer>
-  <div class="foot"><span>오늘뭐먹CR? v7.0</span><span>퇴계로 24 기준</span></div>
+  <div class="foot"><span>오늘뭐먹CR? v8.0</span><span>퇴계로 24 기준</span></div>
 </footer>
 
 <script>
@@ -265,12 +265,13 @@ const restaurants = [
  {name:"더 퍼스트 서래향 시청점", category:"중식", address:"중구 남대문로 27, 1층", rating:4.9, price:17000, walk:15, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["중식","실장님맛집","접대맛집","팀점심맛집"], menu:"중식", desc:"조금 더 걸어도 괜찮은 날의 깔끔한 중식 후보."},
  {name:"풍문고기집", category:"고기", address:"중구 세종대로2길 6-1", rating:3.9, price:18000, walk:15, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["아재맛집","고기","낮술맛집","물고기제외"], menu:"고기·한식", desc:"북창동/시청 방향의 고기집. 회식이나 낮술 모드에."},
  {name:"샐러디 서울 시청", category:"샐러드", address:"중구 세종대로18길 20", rating:4.7, price:10000, walk:17, meal:["lunch","dinner"], party:["solo"], capacity:2, tags:["마운자로인 맛집","혼밥맛집","가벼운점심","물고기제외"], menu:"샐러드·웜볼", desc:"양 조절과 단백질 선택이 쉬운 가벼운 점심용."},
- {name:"어슬서울", category:"한식", address:"중구 퇴계로 15", rating:4.8, price:30000, walk:4, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["실장님맛집","저녁회식"], menu:"한식 다이닝", desc:"가까운 거리에서 분위기 있는 식사가 필요한 날."}
+ {name:"어슬서울", category:"한식", address:"중구 퇴계로 15", rating:4.8, price:30000, walk:4, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["실장님맛집","저녁회식"], menu:"한식 다이닝", desc:"가까운 거리에서 분위기 있는 식사가 필요한 날."},
+
+ {name:"훈이네식당", category:"백반", address:"서울 중구 퇴계로4길 52-7 1층", rating:0, price:10000, walk:8, meal:["lunch"], party:["solo","team"], capacity:4, tags:["백반","아재맛집","팀점심맛집","혼밥맛집"], menu:"가정식 백반", desc:"회현역 4번 출구 인근의 동네 백반집. 밥다운 밥이 당길 때."},
+ {name:"전통집", category:"백반", address:"서울 중구 남대문시장·회현역 인근", rating:0, price:12000, walk:9, meal:["lunch"], party:["solo","team"], capacity:4, tags:["백반","아재맛집","팀점심맛집"], menu:"한식 백반", desc:"회현역 1번 출구에서 남대문시장 방향의 한식 백반집."},
+ {name:"동그라미식당", category:"백반", address:"서울 중구 소월로·회현역 4번 출구 인근", rating:0, price:10000, walk:10, meal:["lunch"], party:["solo","team"], capacity:4, tags:["백반","아재맛집","팀점심맛집"], menu:"동그라미 백반", desc:"점심 한 끼 중심으로 운영되는 회현역 소월로 백반집."},
 ];
 
-
-
-// remove accidental duplicates
 const data = restaurants.filter((r,i,a)=>a.findIndex(x=>x.name===r.name)===i);
 
 const foodCats = ["전체","한식","백반","중식","일식","고기","분식","샐러드"];
@@ -452,7 +453,7 @@ function render(){
           <div class="name">${r.name}</div>
           <div class="meta">${r.address} · 최대 ${r.capacity || 4}명 추천</div>
         </div>
-        <div class="rating">★ ${r.rating}</div>
+        <div class="rating">${r.rating ? `★ ${r.rating}` : `NEW`}</div>
       </div>
       <div class="tags">
         <span class="tag">${r.category}</span>
