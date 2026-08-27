@@ -73,9 +73,6 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
 .mini.active{background:#fff0ec;border-color:#ffc5b5;color:#d94a27;font-weight:800}
 .weatherbox{display:flex;justify-content:space-between;gap:10px;align-items:center;background:#fff8f5;border:1px solid #ffe0d7;border-radius:14px;padding:12px;margin-top:10px}
 .weatherbox b{font-size:13px}.weatherbox span{font-size:11px;color:#777}
-.review{margin-top:10px;background:#fffaf2;border-radius:12px;padding:10px 11px;font-size:12px;line-height:1.5}
-.review b{color:#9a5a00}
-.vote{border:1px solid var(--line);background:#fff;padding:10px 12px;border-radius:11px;font-size:12px;font-weight:800;cursor:pointer}
 .admin-form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .admin-form input,.admin-form select,.admin-form textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:10px;font:inherit;background:#fff}
 .admin-form textarea{grid-column:1/-1;min-height:72px}
@@ -205,7 +202,6 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
         <label><input id="newStress" type="checkbox"> 스트레스해소(매운맛)</label>
         <label><input id="newTreat" type="checkbox"> 접대맛집</label>
       </div>
-      <textarea id="newReview" placeholder="CR 한줄평 — 예: 조용하고 음식 빨리 나옴. 실장님 모시고 가기도 괜찮음."></textarea>
       <button class="btn primary full" onclick="addRestaurant()">우리 맛집 DB에 추가</button>
     </div>
   </section>
@@ -244,7 +240,7 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
 </div>
 
 <footer>
-  <div class="foot"><span>어차피 🐂달구지 갈꺼자나 · BETA</span><span>퇴계로 24 기준</span></div>
+  <div class="foot"><span>어차피 🐂달구지 갈꺼자나 · BETA v2</span><span>퇴계로 24 기준</span></div>
 </footer>
 
 <script>
@@ -310,21 +306,10 @@ let food="전체", special="전체", sortBy="distance";
 let excludeYesterday=false, excludeRecent=false;
 let visits = JSON.parse(localStorage.getItem("crfood_visits")||"[]");
 let customRestaurants = JSON.parse(localStorage.getItem("crfood_custom")||"[]");
-let votes = JSON.parse(localStorage.getItem("crfood_votes")||"{}");
-let reviews = JSON.parse(localStorage.getItem("crfood_reviews")||"{}");
 customRestaurants.forEach(x=>{ if(!data.some(d=>d.name===x.name)) data.push(x); });
 let favorites = JSON.parse(localStorage.getItem("crfood_favs")||"[]");
 
 
-const defaultReviews = {
- "어슬서울":"외부 미팅이나 접대 후보. 가까워서 이동 부담도 적음.",
- "회현식당":"제철 생선 좋아하는 사람끼리 조용히 먹기 좋은 편.",
- "야래향":"아재 감성 제대로. 중식에 반주 생각나는 날.",
- "영도국밥":"속 풀어야 하는 날 후보. 메뉴 고민하기 싫을 때 좋음.",
- "애성회관한우곰탕":"깔끔한 곰탕. 혼밥부터 팀점심까지 무난.",
- "북촌손두부":"과식 부담 있는 날 두부 메뉴로 조절하기 좋음."
-};
-Object.entries(defaultReviews).forEach(([k,v])=>{if(!reviews[k]) reviews[k]=v;});
 
 function toggleHistory(type){
   if(type==="yesterday") excludeYesterday=!excludeYesterday;
@@ -364,19 +349,6 @@ function visitRestaurant(name){
   localStorage.setItem("crfood_visits",JSON.stringify(visits));
   closeModal(); render();
 }
-function upvote(name){
-  votes[name]=(votes[name]||0)+1;
-  localStorage.setItem("crfood_votes",JSON.stringify(votes));
-  render();
-}
-function editReview(name){
-  const old=reviews[name]||"";
-  const v=prompt("CR 한줄평을 남겨주세요.",old);
-  if(v===null)return;
-  reviews[name]=v.trim();
-  localStorage.setItem("crfood_reviews",JSON.stringify(reviews));
-  render();
-}
 function addRestaurant(){
   const name=document.getElementById("newName").value.trim();
   if(!name){alert("식당명을 입력해주세요.");return;}
@@ -398,12 +370,9 @@ function addRestaurant(){
     desc:"CR인이 직접 등록한 맛집.", custom:true
   };
   if(data.some(x=>x.name===name)){alert("이미 등록된 식당이에요.");return;}
-  const rv=document.getElementById("newReview").value.trim();
-  if(rv) reviews[name]=rv;
   data.push(r); customRestaurants.push(r);
   localStorage.setItem("crfood_custom",JSON.stringify(customRestaurants));
-  localStorage.setItem("crfood_reviews",JSON.stringify(reviews));
-  ["newName","newMenu","newPrice","newWalk","newCapacity","newAddress","newReview"].forEach(id=>document.getElementById(id).value="");
+  ["newName","newMenu","newPrice","newWalk","newCapacity","newAddress"].forEach(id=>document.getElementById(id).value="");
   ["newNoFish","newStress","newTreat"].forEach(id=>document.getElementById(id).checked=false);
   render(); alert("CR 맛집에 추가했어요! 🍚");
 }
@@ -495,10 +464,7 @@ function render(){
         <div class="box"><b>🍽 ${r.menu}</b><span>대표 유형</span></div>
       </div>
       <div class="desc">${r.desc}${r.custom?'<span class="badge-new">CR 등록</span>':''}</div>
-      <div class="review"><b>💬 CR 한줄평</b><br>${reviews[r.name]||"아직 한줄평이 없어요. 첫 평을 남겨주세요!"}</div>
       <div class="card-actions">
-        <button class="vote" onclick="upvote('${r.name.replaceAll("'","\'")}')">👍 CR 추천 ${votes[r.name]||0}</button>
-        <button class="vote" onclick="editReview('${r.name.replaceAll("'","\'")}')">✍️ 한줄평</button>
         <button class="fav ${favorites.includes(r.name)?'on':''}" onclick="toggleFav('${r.name.replaceAll("'","\'")}')">${favorites.includes(r.name)?'♥':'♡'}</button>
       </div>
       <div class="card-actions">
