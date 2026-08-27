@@ -68,9 +68,6 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
 .foot{max-width:760px;margin:auto;padding:11px 16px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#777}
 @media(min-width:650px){.cards{grid-template-columns:1fr 1fr}.info{grid-template-columns:1fr 1fr 1fr}}
 
-.historybar{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
-.mini{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-size:12px;cursor:pointer}
-.mini.active{background:#fff0ec;border-color:#ffc5b5;color:#d94a27;font-weight:800}
 .weatherbox{display:flex;justify-content:space-between;gap:10px;align-items:center;background:#fff8f5;border:1px solid #ffe0d7;border-radius:14px;padding:12px;margin-top:10px}
 .weatherbox b{font-size:13px}.weatherbox span{font-size:11px;color:#777}
 .admin-form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -110,18 +107,15 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
       <div><b>🙂 오늘 기분은?</b><br><span>기분을 고르면 지금 당기는 메뉴를 먼저 보여줘요.</span></div>
       <select id="mood" style="max-width:160px">
         <option value="all">기분 선택</option>
-        <option value="stress">스트레스 폭발 😡</option>
+        <option value="angry">화남 😡</option>
+        <option value="sad">우울함 😔</option>
+        <option value="stress">스트레스 폭발 🤯</option>
         <option value="tired">기운 없음 🫠</option>
         <option value="light">가볍게 먹고 싶음 🌿</option>
         <option value="hearty">든든하게 먹고 싶음 🍚</option>
         <option value="drink">한잔 땡김 🍺</option>
         <option value="nice">오늘은 좀 좋은 데 ✨</option>
       </select>
-    </div>
-    <div class="historybar">
-      <button id="excludeYesterday" class="mini" onclick="toggleHistory('yesterday')">어제 먹은 메뉴 제외</button>
-      <button id="excludeRecent" class="mini" onclick="toggleHistory('recent')">최근 간 집 제외</button>
-      <button class="mini" onclick="clearHistory()">방문기록 초기화</button>
     </div>
   </section>
 
@@ -240,7 +234,7 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
 </div>
 
 <footer>
-  <div class="foot"><span>어차피 🐂달구지 갈꺼자나 · BETA v2</span><span>퇴계로 24 기준</span></div>
+  <div class="foot"><span>어차피 🐂달구지 갈꺼자나 · BETA CLEAN</span><span>퇴계로 24 기준</span></div>
 </footer>
 
 <script>
@@ -303,28 +297,16 @@ const data = restaurants.filter((r,i,a)=>a.findIndex(x=>x.name===r.name)===i);
 const foodCats = ["전체","한식","백반","중식","일식","고기","분식","샐러드","아시안","양식"];
 const specials = ["전체","아재맛집","낮술맛집","해장맛집","스트레스해소","마운자로인 맛집","물고기제외","팀점심맛집","접대맛집"];
 let food="전체", special="전체", sortBy="distance";
-let excludeYesterday=false, excludeRecent=false;
-let visits = JSON.parse(localStorage.getItem("crfood_visits")||"[]");
 let customRestaurants = JSON.parse(localStorage.getItem("crfood_custom")||"[]");
 customRestaurants.forEach(x=>{ if(!data.some(d=>d.name===x.name)) data.push(x); });
 let favorites = JSON.parse(localStorage.getItem("crfood_favs")||"[]");
 
 
 
-function toggleHistory(type){
-  if(type==="yesterday") excludeYesterday=!excludeYesterday;
-  if(type==="recent") excludeRecent=!excludeRecent;
-  document.getElementById("excludeYesterday").classList.toggle("active",excludeYesterday);
-  document.getElementById("excludeRecent").classList.toggle("active",excludeRecent);
-  render();
-}
-function clearHistory(){
-  if(confirm("방문 기록을 초기화할까요?")){
-    visits=[]; localStorage.removeItem("crfood_visits"); render();
-  }
-}
 function moodMatch(r,m){
   const s=(r.category+" "+r.menu+" "+r.tags.join(" ")).toLowerCase();
+  if(m==="angry") return /스트레스해소|짬뽕|매운|중식/.test(s);
+  if(m==="sad") return /고기|국밥|곰탕|한식|접대맛집|분위기맛집/.test(s);
   if(m==="stress") return /스트레스해소|짬뽕|매운|중식/.test(s);
   if(m==="tired") return /해장맛집|국밥|곰탕|찌개|한식/.test(s);
   if(m==="light") return /마운자로인|샐러드|두부|일식/.test(s);
@@ -339,15 +321,6 @@ function weatherMatch(r,w){
   if(w==="hot") return /냉면|메밀|샐러드|일식|회|두부/.test(s);
   if(w==="cold") return /국밥|곰탕|짬뽕|찌개|고기|두부/.test(s);
   return true;
-}
-function visitRestaurant(name){
-  const r=data.find(x=>x.name===name); if(!r)return;
-  const today=new Date().toISOString().slice(0,10);
-  visits=visits.filter(v=>v.name!==name);
-  visits.unshift({name:r.name,category:r.category,date:today});
-  visits=visits.slice(0,30);
-  localStorage.setItem("crfood_visits",JSON.stringify(visits));
-  closeModal(); render();
 }
 function addRestaurant(){
   const name=document.getElementById("newName").value.trim();
@@ -389,11 +362,6 @@ function current(){
   const party=document.getElementById("party").value;
   const weather=document.getElementById("weather").value;
   const mood=document.getElementById("mood").value;
-  const today=new Date();
-  const yesterday=new Date(today); yesterday.setDate(today.getDate()-1);
-  const yd=yesterday.toISOString().slice(0,10);
-  const recentNames=new Set(visits.slice(0,5).map(v=>v.name));
-  const yesterdayCats=new Set(visits.filter(v=>v.date===yd).map(v=>v.category));
 
   let arr=data.filter(r=>{
     if(food!=="전체" && r.category!==food) return false;
@@ -410,8 +378,6 @@ function current(){
       if((r.capacity || 4) < n) return false;
     }
     if(q && !(r.name+" "+r.category+" "+r.address+" "+r.menu+" "+r.tags.join(" ")).toLowerCase().includes(q)) return false;
-    if(excludeRecent && recentNames.has(r.name)) return false;
-    if(excludeYesterday && yesterdayCats.has(r.category)) return false;
     return true;
   });
   if(weather!=="all" || mood!=="all"){
@@ -469,7 +435,6 @@ function render(){
       </div>
       <div class="card-actions">
         <button class="linkbtn" onclick="window.open('${navLink(r)}','_blank')">네이버지도 ↗</button>
-        <button class="linkbtn" onclick="visitRestaurant('${r.name.replaceAll("'","\'")}')">✓ 오늘 여기 갔어요</button>
       </div>
     </article>
   `).join("");
@@ -498,7 +463,6 @@ function noDebatePick(){
     `🚶 도보 약 ${r.walk}분 · 💰 약 ${money(r.price)}${r.rating?` · ★ ${r.rating}`:""}<br>${r.tags.join(" · ")}<br><br>${r.desc}`;
   document.getElementById("forcedQuote").textContent=quote;
   document.getElementById("forcedGoBtn").onclick=()=>{
-    visitRestaurant(r.name);
     window.open(navLink(r),"_blank");
     closeForcedModal();
   };
@@ -514,7 +478,7 @@ function randomPick(){
   const r=arr[Math.floor(Math.random()*arr.length)];
   document.getElementById("pickName").textContent=r.name;
   document.getElementById("pickTags").innerHTML=`🚶 도보 약 ${r.walk}분 · 💰 약 ${money(r.price)} · ★ ${r.rating}<br>${r.tags.join(" · ")}<br><br>${r.desc}`;
-  document.getElementById("decideBtn").onclick=()=>visitRestaurant(r.name);
+  document.getElementById("decideBtn").onclick=closeModal;
   document.getElementById("modal").classList.add("show");
 }
 function closeModal(){document.getElementById("modal").classList.remove("show")}
