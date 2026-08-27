@@ -109,6 +109,18 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
         <option value="cold">쌀쌀함 🧥</option>
       </select>
     </div>
+    <div class="weatherbox">
+      <div><b>🙂 오늘 기분은?</b><br><span>기분을 고르면 지금 당기는 메뉴를 먼저 보여줘요.</span></div>
+      <select id="mood" style="max-width:160px">
+        <option value="all">기분 선택</option>
+        <option value="stress">스트레스 폭발 😡</option>
+        <option value="tired">기운 없음 🫠</option>
+        <option value="light">가볍게 먹고 싶음 🌿</option>
+        <option value="hearty">든든하게 먹고 싶음 🍚</option>
+        <option value="drink">한잔 땡김 🍺</option>
+        <option value="nice">오늘은 좀 좋은 데 ✨</option>
+      </select>
+    </div>
     <div class="historybar">
       <button id="excludeYesterday" class="mini" onclick="toggleHistory('yesterday')">어제 먹은 메뉴 제외</button>
       <button id="excludeRecent" class="mini" onclick="toggleHistory('recent')">최근 간 집 제외</button>
@@ -129,8 +141,7 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
   <section class="panel">
     <div class="controls">
       <select id="meal">
-        <option value="all">점심 + 저녁</option>
-        <option value="lunch">점심</option>
+        <option value="lunch" selected>점심</option>
         <option value="dinner">저녁</option>
       </select>
       <select id="price">
@@ -157,29 +168,13 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
         <option value="8">8명 이상</option>
       </select>
     </div>
-    <div class="actions">
+    <div class="actions" style="grid-template-columns:1fr 1fr">
       <button class="btn primary" onclick="randomPick()">🎰 아 몰라 골라줘</button>
-      <button class="btn secondary" onclick="resetAll()">필터 초기화</button>
+      <button class="btn" style="background:#24262b;color:#fff" onclick="noDebatePick()">🎯 군말없이 따라가기</button>
+      <button class="btn secondary" style="grid-column:1/-1" onclick="resetAll()">필터 초기화</button>
     </div>
   </section>
 
-  <section class="panel">
-    <div class="title">➕ CR 새 맛집 등록</div>
-    <div class="admin-form">
-      <input id="newName" placeholder="식당명">
-      <select id="newCategory">
-        <option>한식</option><option>중식</option><option>일식</option><option>고기</option>
-        <option>분식</option><option>샐러드</option><option>양식</option><option>아시안</option>
-      </select>
-      <input id="newMenu" placeholder="대표메뉴">
-      <input id="newPrice" type="number" placeholder="1인 예상가격">
-      <input id="newWalk" type="number" placeholder="도보시간(분)">
-      <input id="newCapacity" type="number" placeholder="추천 최대인원">
-      <input id="newAddress" class="full" placeholder="주소">
-      <textarea id="newReview" placeholder="CR 한줄평 — 예: 조용하고 음식 빨리 나옴. 실장님 모시고 가기도 괜찮음."></textarea>
-      <button class="btn primary full" onclick="addRestaurant()">우리 맛집 DB에 추가</button>
-    </div>
-  </section>
 
   <div class="summary">
     <div class="count"><span id="count">0</span>곳 찾음</div>
@@ -191,6 +186,30 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
   </div>
 
   <div id="cards" class="cards"></div>
+
+  <section class="panel">
+    <div class="title">➕ CR 새 맛집 등록</div>
+    <div class="admin-form">
+      <input id="newName" placeholder="식당명">
+      <select id="newCategory">
+        <option>한식</option><option>백반</option><option>중식</option><option>일식</option><option>고기</option>
+        <option>분식</option><option>샐러드</option><option>양식</option><option>아시안</option>
+      </select>
+      <input id="newMenu" placeholder="대표메뉴">
+      <input id="newPrice" type="number" placeholder="1인 예상가격">
+      <input id="newWalk" type="number" placeholder="도보시간(분)">
+      <input id="newCapacity" type="number" placeholder="추천 최대인원">
+      <input id="newAddress" class="full" placeholder="주소">
+      <div class="full" style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#555">
+        <label><input id="newNoFish" type="checkbox"> 물고기제외</label>
+        <label><input id="newStress" type="checkbox"> 스트레스해소(매운맛)</label>
+        <label><input id="newTreat" type="checkbox"> 접대맛집</label>
+      </div>
+      <textarea id="newReview" placeholder="CR 한줄평 — 예: 조용하고 음식 빨리 나옴. 실장님 모시고 가기도 괜찮음."></textarea>
+      <button class="btn primary full" onclick="addRestaurant()">우리 맛집 DB에 추가</button>
+    </div>
+  </section>
+
   <div class="note">
     ※ 도보시간은 퇴계로 24를 기준으로 한 초기 큐레이션 값이며 실제 보행 동선·신호대기 등에 따라 달라질 수 있습니다.
     가격은 대표적인 1인 식사 가격대 기준의 참고값입니다. 앱 내 데이터는 추후 CR팀 추천으로 계속 추가·수정할 수 있게 확장 가능합니다.
@@ -209,35 +228,53 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
   </div>
 </div>
 
+
+<div id="forcedModal" class="modal" onclick="if(event.target===this)closeForcedModal()">
+  <div class="sheet" style="text-align:center">
+    <div class="pick-label">🎯 군말없이 따라가기</div>
+    <div style="font-size:13px;color:#777;margin-top:8px">오늘의 점심 민주주의는 종료되었습니다.</div>
+    <div id="forcedName" class="pick-name" style="margin-top:14px"></div>
+    <div id="forcedTags" class="pick-tags"></div>
+    <div id="forcedQuote" style="margin:20px 0 6px;font-size:20px;font-weight:900;letter-spacing:-.03em"></div>
+    <div style="font-size:11px;color:#999;margin-bottom:16px">※ 재추첨 버튼은 제공하지 않습니다.</div>
+    <div class="pick-actions" style="grid-template-columns:1fr">
+      <button id="forcedGoBtn" class="btn primary">🗺️ 지도 보고 출발</button>
+      <button class="btn secondary" onclick="closeForcedModal()">알겠습니다...</button>
+    </div>
+  </div>
+</div>
+
 <footer>
-  <div class="foot"><span>오늘뭐먹CR? v2.0</span><span>퇴계로 24 기준</span></div>
+  <div class="foot"><span>오늘뭐먹CR? v7.0</span><span>퇴계로 24 기준</span></div>
 </footer>
 
 <script>
 const restaurants = [
  {name:"어슬서울", category:"한식", address:"중구 퇴계로 15, 13층", rating:4.8, price:30000, walk:4, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["실장님맛집","접대맛집","분위기맛집","저녁회식"], menu:"한식 다이닝", desc:"회사 가까운 편의 한식 다이닝. 조금 제대로 먹고 싶은 날."},
  {name:"회현식당", category:"일식", address:"중구 퇴계로2길 9-8", rating:4.4, price:35000, walk:8, meal:["lunch","dinner"], party:["team"], capacity:4, tags:["실장님맛집","접대맛집","일식","조용한맛집"], menu:"일정식", desc:"회현동의 일식당. 차분한 점심이나 미팅 식사 후보."},
- {name:"유가", category:"중식", address:"중구 회현동1가 117-5", rating:4.4, price:15000, walk:6, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["중식","팀점심맛집","낮술맛집"], menu:"중식", desc:"회현역권 중식당. 여러 명이 메뉴 나눠먹기 좋은 타입."},
- {name:"야래향", category:"중식", address:"중구 퇴계로10길 14", rating:4.0, price:15000, walk:7, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["아재맛집","중식","낮술맛집"], menu:"중식", desc:"퇴계로 골목의 클래식한 중식당. 아재맛집 감성으로 분류."},
+ {name:"유가", category:"중식", address:"중구 회현동1가 117-5", rating:4.4, price:15000, walk:6, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["중식","팀점심맛집","낮술맛집","스트레스해소","물고기제외"], menu:"중식", desc:"회현역권 중식당. 여러 명이 메뉴 나눠먹기 좋은 타입."},
+ {name:"야래향", category:"중식", address:"중구 퇴계로10길 14", rating:4.0, price:15000, walk:7, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["아재맛집","중식","낮술맛집","스트레스해소","물고기제외"], menu:"중식", desc:"퇴계로 골목의 클래식한 중식당. 아재맛집 감성으로 분류."},
  {name:"그냥밥집", category:"한식", address:"중구 퇴계로12길 55", rating:4.3, price:12000, walk:9, meal:["lunch","dinner"], party:["solo","team"], capacity:4, tags:["팀점심맛집","혼밥맛집","한식"], menu:"가정식", desc:"이름 그대로 부담 없이 밥 먹기 좋은 회현동 한식 후보."},
- {name:"화기", category:"고기", address:"중구 퇴계로 42-2", rating:4.3, price:18000, walk:4, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["고기","팀점심맛집","저녁회식"], menu:"갈비·고기", desc:"회사에서 가까운 고기/갈비 계열. 든든하게 먹는 날."},
- {name:"교동짬뽕 회현역 남대문시장점", category:"중식", address:"중구 퇴계로 57-1", rating:4.0, price:11000, walk:6, meal:["lunch","dinner"], party:["solo","team"], capacity:4, tags:["해장맛집","아재맛집","혼밥맛집"], menu:"짬뽕·중식", desc:"해장 필요한 날 바로 떠올리기 좋은 짬뽕집."},
+ {name:"화기", category:"고기", address:"중구 퇴계로 42-2", rating:4.3, price:18000, walk:4, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["고기","팀점심맛집","저녁회식","물고기제외"], menu:"갈비·고기", desc:"회사에서 가까운 고기/갈비 계열. 든든하게 먹는 날."},
+ {name:"교동짬뽕 회현역 남대문시장점", category:"중식", address:"중구 퇴계로 57-1", rating:4.0, price:11000, walk:6, meal:["lunch","dinner"], party:["solo","team"], capacity:4, tags:["해장맛집","아재맛집","혼밥맛집","스트레스해소","물고기제외"], menu:"짬뽕·중식", desc:"해장 필요한 날 바로 떠올리기 좋은 짬뽕집."},
  {name:"가메골손왕만두 남대문본점", category:"분식", address:"중구 남대문시장4길 42", rating:4.3, price:9000, walk:10, meal:["lunch"], party:["solo"], capacity:2, tags:["만원컷","혼밥맛집","남대문"], menu:"왕만두", desc:"만원컷 가능한 남대문시장 대표 간편식 후보."},
- {name:"영도국밥", category:"한식", address:"중구 남대문시장4길 39", rating:4.7, price:11000, walk:10, meal:["lunch","dinner"], party:["solo","team"], capacity:4, tags:["해장맛집","아재맛집","국밥"], menu:"국밥", desc:"국밥 한 그릇으로 빠르고 든든하게. 해장 카테고리 핵심."},
- {name:"애성회관한우곰탕", category:"한식", address:"중구 남대문로5길 23", rating:4.4, price:14000, walk:13, meal:["lunch","dinner"], party:["solo","team"], capacity:4, tags:["해장맛집","아재맛집","혼밥맛집"], menu:"한우곰탕", desc:"곰탕 계열의 직장인 점심 강자. 혼밥도 팀점심도 무난."},
- {name:"북창옥", category:"한식", address:"중구 북창동 60", rating:4.7, price:14000, walk:14, meal:["lunch","dinner"], party:["solo","team","group"], capacity:8, tags:["해장맛집","국밥","아재맛집"], menu:"돼지국밥", desc:"북창동 돼지국밥. 해장과 든든한 점심에 적합."},
- {name:"북촌손두부", category:"한식", address:"중구 북창동 105", rating:4.2, price:12000, walk:14, meal:["lunch"], party:["solo","team"], capacity:4, tags:["마운자로인 맛집","혼밥맛집","두부"], menu:"두부요리", desc:"두부 중심으로 메뉴 선택이 가능한 비교적 담백한 점심 후보."},
+ {name:"영도국밥", category:"한식", address:"중구 남대문시장4길 39", rating:4.7, price:11000, walk:10, meal:["lunch","dinner"], party:["solo","team"], capacity:4, tags:["해장맛집","아재맛집","국밥","물고기제외"], menu:"국밥", desc:"국밥 한 그릇으로 빠르고 든든하게. 해장 카테고리 핵심."},
+ {name:"애성회관한우곰탕", category:"한식", address:"중구 남대문로5길 23", rating:4.4, price:14000, walk:13, meal:["lunch","dinner"], party:["solo","team"], capacity:4, tags:["해장맛집","아재맛집","혼밥맛집","스트레스해소","물고기제외"], menu:"한우곰탕", desc:"곰탕 계열의 직장인 점심 강자. 혼밥도 팀점심도 무난."},
+ {name:"북창옥", category:"한식", address:"중구 북창동 60", rating:4.7, price:14000, walk:14, meal:["lunch","dinner"], party:["solo","team","group"], capacity:8, tags:["해장맛집","국밥","아재맛집","물고기제외"], menu:"돼지국밥", desc:"북창동 돼지국밥. 해장과 든든한 점심에 적합."},
+ {name:"북촌손두부", category:"한식", address:"중구 북창동 105", rating:4.2, price:12000, walk:14, meal:["lunch"], party:["solo","team"], capacity:4, tags:["마운자로인 맛집","혼밥맛집","두부","물고기제외"], menu:"두부요리", desc:"두부 중심으로 메뉴 선택이 가능한 비교적 담백한 점심 후보."},
  {name:"더 퍼스트 서래향 시청점", category:"중식", address:"중구 남대문로 27, 1층", rating:4.9, price:17000, walk:15, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["중식","실장님맛집","접대맛집","팀점심맛집"], menu:"중식", desc:"조금 더 걸어도 괜찮은 날의 깔끔한 중식 후보."},
- {name:"풍문고기집", category:"고기", address:"중구 세종대로2길 6-1", rating:3.9, price:18000, walk:15, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["아재맛집","고기","낮술맛집"], menu:"고기·한식", desc:"북창동/시청 방향의 고기집. 회식이나 낮술 모드에."},
- {name:"샐러디 서울 시청", category:"샐러드", address:"중구 세종대로18길 20", rating:4.7, price:10000, walk:17, meal:["lunch","dinner"], party:["solo"], capacity:2, tags:["마운자로인 맛집","혼밥맛집","가벼운점심"], menu:"샐러드·웜볼", desc:"양 조절과 단백질 선택이 쉬운 가벼운 점심용."},
+ {name:"풍문고기집", category:"고기", address:"중구 세종대로2길 6-1", rating:3.9, price:18000, walk:15, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["아재맛집","고기","낮술맛집","물고기제외"], menu:"고기·한식", desc:"북창동/시청 방향의 고기집. 회식이나 낮술 모드에."},
+ {name:"샐러디 서울 시청", category:"샐러드", address:"중구 세종대로18길 20", rating:4.7, price:10000, walk:17, meal:["lunch","dinner"], party:["solo"], capacity:2, tags:["마운자로인 맛집","혼밥맛집","가벼운점심","물고기제외"], menu:"샐러드·웜볼", desc:"양 조절과 단백질 선택이 쉬운 가벼운 점심용."},
  {name:"어슬서울", category:"한식", address:"중구 퇴계로 15", rating:4.8, price:30000, walk:4, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["실장님맛집","저녁회식"], menu:"한식 다이닝", desc:"가까운 거리에서 분위기 있는 식사가 필요한 날."}
 ];
+
+
 
 // remove accidental duplicates
 const data = restaurants.filter((r,i,a)=>a.findIndex(x=>x.name===r.name)===i);
 
-const foodCats = ["전체","한식","중식","일식","고기","분식","샐러드"];
-const specials = ["전체","아재맛집","마운자로인 맛집","낮술맛집","해장맛집","실장님맛집","접대맛집","팀점심맛집","혼밥맛집"];
+const foodCats = ["전체","한식","백반","중식","일식","고기","분식","샐러드"];
+const specials = ["전체","아재맛집","낮술맛집","해장맛집","스트레스해소","마운자로인 맛집","물고기제외","팀점심맛집","접대맛집"];
 let food="전체", special="전체", sortBy="distance";
 let excludeYesterday=false, excludeRecent=false;
 let visits = JSON.parse(localStorage.getItem("crfood_visits")||"[]");
@@ -269,6 +306,16 @@ function clearHistory(){
   if(confirm("방문 기록을 초기화할까요?")){
     visits=[]; localStorage.removeItem("crfood_visits"); render();
   }
+}
+function moodMatch(r,m){
+  const s=(r.category+" "+r.menu+" "+r.tags.join(" ")).toLowerCase();
+  if(m==="stress") return /스트레스해소|짬뽕|매운|중식/.test(s);
+  if(m==="tired") return /해장맛집|국밥|곰탕|찌개|한식/.test(s);
+  if(m==="light") return /마운자로인|샐러드|두부|일식/.test(s);
+  if(m==="hearty") return /고기|국밥|한식|중식/.test(s);
+  if(m==="drink") return /낮술맛집|저녁회식|고기|중식/.test(s);
+  if(m==="nice") return /접대맛집|실장님맛집|분위기맛집|일식/.test(s);
+  return true;
 }
 function weatherMatch(r,w){
   const s=(r.category+" "+r.menu+" "+r.tags.join(" ")).toLowerCase();
@@ -310,7 +357,12 @@ function addRestaurant(){
     price:Number(document.getElementById("newPrice").value)||12000,
     walk:Number(document.getElementById("newWalk").value)||10,
     capacity:Number(document.getElementById("newCapacity").value)||4,
-    meal:["lunch","dinner"], party:["team"], tags:["CR인 추천"], 
+    meal:["lunch","dinner"], party:["team"], tags:[
+      "CR인 추천",
+      ...(document.getElementById("newNoFish").checked?["물고기제외"]:[]),
+      ...(document.getElementById("newStress").checked?["스트레스해소"]:[]),
+      ...(document.getElementById("newTreat").checked?["접대맛집"]:[])
+    ], 
     menu:document.getElementById("newMenu").value.trim()||"메뉴 미입력",
     desc:"CR인이 직접 등록한 맛집.", custom:true
   };
@@ -321,6 +373,7 @@ function addRestaurant(){
   localStorage.setItem("crfood_custom",JSON.stringify(customRestaurants));
   localStorage.setItem("crfood_reviews",JSON.stringify(reviews));
   ["newName","newMenu","newPrice","newWalk","newCapacity","newAddress","newReview"].forEach(id=>document.getElementById(id).value="");
+  ["newNoFish","newStress","newTreat"].forEach(id=>document.getElementById(id).checked=false);
   render(); alert("CR 맛집에 추가했어요! 🍚");
 }
 
@@ -335,6 +388,7 @@ function current(){
   const dist=document.getElementById("distance").value;
   const party=document.getElementById("party").value;
   const weather=document.getElementById("weather").value;
+  const mood=document.getElementById("mood").value;
   const today=new Date();
   const yesterday=new Date(today); yesterday.setDate(today.getDate()-1);
   const yd=yesterday.toISOString().slice(0,10);
@@ -360,7 +414,13 @@ function current(){
     if(excludeYesterday && yesterdayCats.has(r.category)) return false;
     return true;
   });
-  if(weather!=="all") arr.sort((a,b)=>(weatherMatch(b,weather)?1:0)-(weatherMatch(a,weather)?1:0) || a.walk-b.walk);
+  if(weather!=="all" || mood!=="all"){
+    arr.sort((a,b)=>{
+      const bs=(weather!=="all"&&weatherMatch(b,weather)?1:0)+(mood!=="all"&&moodMatch(b,mood)?1:0);
+      const as=(weather!=="all"&&weatherMatch(a,weather)?1:0)+(mood!=="all"&&moodMatch(a,mood)?1:0);
+      return bs-as || a.walk-b.walk;
+    });
+  }
   else if(sortBy==="distance") arr.sort((a,b)=>a.walk-b.walk || b.rating-a.rating);
   if(sortBy==="price") arr.sort((a,b)=>a.price-b.price || a.walk-b.walk);
   if(sortBy==="rating") arr.sort((a,b)=>b.rating-a.rating || a.walk-b.walk);
@@ -396,7 +456,7 @@ function render(){
       </div>
       <div class="tags">
         <span class="tag">${r.category}</span>
-        ${r.tags.map(t=>`<span class="tag ${["아재맛집","마운자로인 맛집","낮술맛집","해장맛집","실장님맛집","접대맛집"].includes(t)?'hot':''}">${t}</span>`).join("")}
+        ${r.tags.map(t=>`<span class="tag ${["아재맛집","낮술맛집","해장맛집","스트레스해소","마운자로인 맛집","접대맛집"].includes(t)?'hot':''}">${t}</span>`).join("")}
       </div>
       <div class="info">
         <div class="box"><b>🚶 ${r.walk}분</b><span>퇴계로 24 기준</span></div>
@@ -417,6 +477,40 @@ function render(){
     </article>
   `).join("");
 }
+
+const noDebateQuotes = [
+  "토론은 끝났습니다.",
+  "오늘 점심 민주주의는 쉽니다.",
+  "이견은 받지 않습니다.",
+  "메뉴 결정 완료. 이동하세요.",
+  "다시 뽑기는 없습니다.",
+  "고민할 시간에 한 숟갈 더.",
+  "오늘은 운명을 받아들이세요."
+];
+
+function noDebatePick(){
+  const arr=current();
+  if(!arr.length){
+    alert("조건에 맞는 식당이 없어요. 조건만 조금 풀고 다시 명령을 내려주세요.");
+    return;
+  }
+  const r=arr[Math.floor(Math.random()*arr.length)];
+  const quote=noDebateQuotes[Math.floor(Math.random()*noDebateQuotes.length)];
+  document.getElementById("forcedName").textContent=r.name;
+  document.getElementById("forcedTags").innerHTML=
+    `🚶 도보 약 ${r.walk}분 · 💰 ${money(r.price)}${r.rating?` · ★ ${r.rating}`:""}<br>${r.tags.join(" · ")}<br><br>${r.desc}`;
+  document.getElementById("forcedQuote").textContent=quote;
+  document.getElementById("forcedGoBtn").onclick=()=>{
+    visitRestaurant(r.name);
+    window.open(navLink(r),"_blank");
+    closeForcedModal();
+  };
+  document.getElementById("forcedModal").classList.add("show");
+}
+function closeForcedModal(){
+  document.getElementById("forcedModal").classList.remove("show");
+}
+
 function randomPick(){
   const arr=current();
   if(!arr.length){alert("조건에 맞는 식당이 없어요. 필터를 조금 풀어주세요!");return;}
@@ -430,12 +524,13 @@ function closeModal(){document.getElementById("modal").classList.remove("show")}
 function resetAll(){
   food="전체"; special="전체"; sortBy="distance";
   document.getElementById("search").value="";
-  ["meal","price","distance","party"].forEach(id=>document.getElementById(id).value="all");
+  document.getElementById("meal").value="lunch";
+  ["price","distance","party","weather","mood"].forEach(id=>document.getElementById(id).value="all");
   document.querySelectorAll(".sort").forEach(x=>x.classList.toggle("active",x.dataset.sort==="distance"));
   renderChips(); render();
 }
 document.getElementById("search").addEventListener("input",render);
-["meal","price","distance","party","weather"].forEach(id=>document.getElementById(id).addEventListener("change",render));
+["meal","price","distance","party","weather","mood"].forEach(id=>document.getElementById(id).addEventListener("change",render));
 document.querySelectorAll(".sort").forEach(btn=>btn.addEventListener("click",()=>{
   sortBy=btn.dataset.sort;
   document.querySelectorAll(".sort").forEach(x=>x.classList.remove("active"));
