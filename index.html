@@ -211,8 +211,7 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
   </section>
 
   <div class="note">
-    ※ 도보시간은 퇴계로 24를 기준으로 한 초기 큐레이션 값이며 실제 보행 동선·신호대기 등에 따라 달라질 수 있습니다.
-    가격은 대표적인 1인 식사 가격대 기준의 참고값입니다. 앱 내 데이터는 추후 CR팀 추천으로 계속 추가·수정할 수 있게 확장 가능합니다.
+    ※ 식당 DB는 회현역·남대문시장·북창동·시청권의 공개 검색자료를 바탕으로 구성했습니다. 도보시간과 가격은 퇴계로 24 기준의 참고값이며 실제 보행 동선·영업시간·메뉴 가격에 따라 달라질 수 있습니다. 식당명과 대표 음식은 공개 검색결과로 확인된 곳을 우선 반영했습니다.
   </div>
 </div>
 
@@ -245,36 +244,67 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,249,.92);b
 </div>
 
 <footer>
-  <div class="foot"><span>오늘뭐먹CR? v8.0</span><span>퇴계로 24 기준</span></div>
+  <div class="foot"><span>오늘뭐먹CR? BETA v1.0</span><span>퇴계로 24 기준</span></div>
 </footer>
 
 <script>
 const restaurants = [
- {name:"어슬서울", category:"한식", address:"중구 퇴계로 15, 13층", rating:4.8, price:30000, walk:4, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["실장님맛집","접대맛집","분위기맛집","저녁회식"], menu:"한식 다이닝", desc:"회사 가까운 편의 한식 다이닝. 조금 제대로 먹고 싶은 날."},
- {name:"회현식당", category:"일식", address:"중구 퇴계로2길 9-8", rating:4.4, price:35000, walk:8, meal:["lunch","dinner"], party:["team"], capacity:4, tags:["실장님맛집","접대맛집","일식","조용한맛집"], menu:"일정식", desc:"회현동의 일식당. 차분한 점심이나 미팅 식사 후보."},
- {name:"유가", category:"중식", address:"중구 회현동1가 117-5", rating:4.4, price:15000, walk:6, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["중식","팀점심맛집","낮술맛집","스트레스해소","물고기제외"], menu:"중식", desc:"회현역권 중식당. 여러 명이 메뉴 나눠먹기 좋은 타입."},
- {name:"야래향", category:"중식", address:"중구 퇴계로10길 14", rating:4.0, price:15000, walk:7, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["아재맛집","중식","낮술맛집","스트레스해소","물고기제외"], menu:"중식", desc:"퇴계로 골목의 클래식한 중식당. 아재맛집 감성으로 분류."},
- {name:"그냥밥집", category:"한식", address:"중구 퇴계로12길 55", rating:4.3, price:12000, walk:9, meal:["lunch","dinner"], party:["solo","team"], capacity:4, tags:["팀점심맛집","혼밥맛집","한식"], menu:"가정식", desc:"이름 그대로 부담 없이 밥 먹기 좋은 회현동 한식 후보."},
- {name:"화기", category:"고기", address:"중구 퇴계로 42-2", rating:4.3, price:18000, walk:4, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["고기","팀점심맛집","저녁회식","물고기제외"], menu:"갈비·고기", desc:"회사에서 가까운 고기/갈비 계열. 든든하게 먹는 날."},
- {name:"교동짬뽕 회현역 남대문시장점", category:"중식", address:"중구 퇴계로 57-1", rating:4.0, price:11000, walk:6, meal:["lunch","dinner"], party:["solo","team"], capacity:4, tags:["해장맛집","아재맛집","혼밥맛집","스트레스해소","물고기제외"], menu:"짬뽕·중식", desc:"해장 필요한 날 바로 떠올리기 좋은 짬뽕집."},
- {name:"가메골손왕만두 남대문본점", category:"분식", address:"중구 남대문시장4길 42", rating:4.3, price:9000, walk:10, meal:["lunch"], party:["solo"], capacity:2, tags:["만원컷","혼밥맛집","남대문"], menu:"왕만두", desc:"만원컷 가능한 남대문시장 대표 간편식 후보."},
- {name:"영도국밥", category:"한식", address:"중구 남대문시장4길 39", rating:4.7, price:11000, walk:10, meal:["lunch","dinner"], party:["solo","team"], capacity:4, tags:["해장맛집","아재맛집","국밥","물고기제외"], menu:"국밥", desc:"국밥 한 그릇으로 빠르고 든든하게. 해장 카테고리 핵심."},
- {name:"애성회관한우곰탕", category:"한식", address:"중구 남대문로5길 23", rating:4.4, price:14000, walk:13, meal:["lunch","dinner"], party:["solo","team"], capacity:4, tags:["해장맛집","아재맛집","혼밥맛집","스트레스해소","물고기제외"], menu:"한우곰탕", desc:"곰탕 계열의 직장인 점심 강자. 혼밥도 팀점심도 무난."},
- {name:"북창옥", category:"한식", address:"중구 북창동 60", rating:4.7, price:14000, walk:14, meal:["lunch","dinner"], party:["solo","team","group"], capacity:8, tags:["해장맛집","국밥","아재맛집","물고기제외"], menu:"돼지국밥", desc:"북창동 돼지국밥. 해장과 든든한 점심에 적합."},
- {name:"북촌손두부", category:"한식", address:"중구 북창동 105", rating:4.2, price:12000, walk:14, meal:["lunch"], party:["solo","team"], capacity:4, tags:["마운자로인 맛집","혼밥맛집","두부","물고기제외"], menu:"두부요리", desc:"두부 중심으로 메뉴 선택이 가능한 비교적 담백한 점심 후보."},
- {name:"더 퍼스트 서래향 시청점", category:"중식", address:"중구 남대문로 27, 1층", rating:4.9, price:17000, walk:15, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["중식","실장님맛집","접대맛집","팀점심맛집"], menu:"중식", desc:"조금 더 걸어도 괜찮은 날의 깔끔한 중식 후보."},
- {name:"풍문고기집", category:"고기", address:"중구 세종대로2길 6-1", rating:3.9, price:18000, walk:15, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["아재맛집","고기","낮술맛집","물고기제외"], menu:"고기·한식", desc:"북창동/시청 방향의 고기집. 회식이나 낮술 모드에."},
- {name:"샐러디 서울 시청", category:"샐러드", address:"중구 세종대로18길 20", rating:4.7, price:10000, walk:17, meal:["lunch","dinner"], party:["solo"], capacity:2, tags:["마운자로인 맛집","혼밥맛집","가벼운점심","물고기제외"], menu:"샐러드·웜볼", desc:"양 조절과 단백질 선택이 쉬운 가벼운 점심용."},
- {name:"어슬서울", category:"한식", address:"중구 퇴계로 15", rating:4.8, price:30000, walk:4, meal:["lunch","dinner"], party:["team","group"], capacity:8, tags:["실장님맛집","저녁회식"], menu:"한식 다이닝", desc:"가까운 거리에서 분위기 있는 식사가 필요한 날."},
-
- {name:"훈이네식당", category:"백반", address:"서울 중구 퇴계로4길 52-7 1층", rating:0, price:10000, walk:8, meal:["lunch"], party:["solo","team"], capacity:4, tags:["백반","아재맛집","팀점심맛집","혼밥맛집"], menu:"가정식 백반", desc:"회현역 4번 출구 인근의 동네 백반집. 밥다운 밥이 당길 때."},
- {name:"전통집", category:"백반", address:"서울 중구 남대문시장·회현역 인근", rating:0, price:12000, walk:9, meal:["lunch"], party:["solo","team"], capacity:4, tags:["백반","아재맛집","팀점심맛집"], menu:"한식 백반", desc:"회현역 1번 출구에서 남대문시장 방향의 한식 백반집."},
- {name:"동그라미식당", category:"백반", address:"서울 중구 소월로·회현역 4번 출구 인근", rating:0, price:10000, walk:10, meal:["lunch"], party:["solo","team"], capacity:4, tags:["백반","아재맛집","팀점심맛집"], menu:"동그라미 백반", desc:"점심 한 끼 중심으로 운영되는 회현역 소월로 백반집."},
+ {name:"어슬서울",category:"한식",address:"회현역·퇴계로 인근",rating:4.8,price:30000,walk:4,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["접대맛집","팀점심맛집"],menu:"한식 다이닝",desc:"가까운 거리에서 분위기 있는 식사가 필요한 날.",estimated:true},
+ {name:"화기",category:"고기",address:"퇴계로·회현역 인근",rating:4.3,price:18000,walk:4,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["팀점심맛집","물고기제외"],menu:"갈비·고기",desc:"회사에서 가까운 고기 계열. 든든한 점심이나 저녁 후보.",estimated:true},
+ {name:"유가",category:"중식",address:"회현역 인근",rating:4.4,price:15000,walk:6,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["낮술맛집","팀점심맛집","스트레스해소","물고기제외"],menu:"중식",desc:"여러 명이 메뉴를 나눠 먹기 좋은 회현권 중식당.",estimated:true},
+ {name:"교동짬뽕 회현역 남대문시장점",category:"중식",address:"회현역·남대문시장 인근",rating:4.0,price:11000,walk:6,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","해장맛집","스트레스해소","물고기제외"],menu:"짬뽕·중식",desc:"매운 국물과 해장이 동시에 필요한 날.",estimated:true},
+ {name:"야래향",category:"중식",address:"퇴계로·회현역 인근",rating:4.0,price:15000,walk:7,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["아재맛집","낮술맛집","스트레스해소","물고기제외"],menu:"중식",desc:"클래식한 중식당 분위기. 반주 생각나는 날.",estimated:true},
+ {name:"회현식당",category:"일식",address:"회현역 인근",rating:4.1,price:35000,walk:8,meal:["lunch","dinner"],party:["team"],capacity:4,tags:["접대맛집","팀점심맛집"],menu:"일본요리·제철생선",desc:"제철 생선 중심의 차분한 일식 식사 후보.",estimated:true},
+ {name:"훈이네식당",category:"백반",address:"서울 중구 퇴계로4길 52-7 1층",rating:3.0,price:10000,walk:8,meal:["lunch"],party:["solo","team"],capacity:4,tags:["아재맛집","팀점심맛집","물고기제외"],menu:"가정식 백반",desc:"회현역 4번 출구 인근의 동네 백반집.",estimated:true},
+ {name:"전통집",category:"백반",address:"회현역 1번 출구·남대문시장 인근",rating:0,price:12000,walk:9,meal:["lunch"],party:["solo","team"],capacity:4,tags:["아재맛집","팀점심맛집"],menu:"한식 백반",desc:"남대문시장 방향에서 한 끼 든든하게 먹기 좋은 백반집.",estimated:true},
+ {name:"그냥밥집",category:"백반",address:"회현역 인근",rating:4.3,price:12000,walk:9,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["팀점심맛집","물고기제외"],menu:"가정식",desc:"부담 없이 밥다운 밥을 먹고 싶은 날.",estimated:true},
+ {name:"동그라미식당",category:"백반",address:"소월로·회현역 4번 출구 인근",rating:0,price:10000,walk:10,meal:["lunch"],party:["solo","team"],capacity:4,tags:["아재맛집","팀점심맛집"],menu:"동그라미 백반",desc:"점심 한 끼 중심으로 운영되는 회현역 백반집.",estimated:true},
+ {name:"가메골손왕만두 남대문본점",category:"분식",address:"남대문시장",rating:4.3,price:9000,walk:10,meal:["lunch"],party:["solo"],capacity:2,tags:["물고기제외"],menu:"왕만두",desc:"빠르고 가볍게 먹기 좋은 남대문시장 대표 간편식.",estimated:true},
+ {name:"영도국밥",category:"한식",address:"남대문시장 인근",rating:4.7,price:11000,walk:10,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","해장맛집","물고기제외"],menu:"국밥",desc:"국밥 한 그릇으로 빠르고 든든하게.",estimated:true},
+ {name:"중앙갈치식당",category:"한식",address:"남대문시장 갈치조림골목",rating:4.4,price:14000,walk:11,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","팀점심맛집"],menu:"갈치조림",desc:"남대문시장 갈치조림 골목의 대표 선택지.",estimated:true},
+ {name:"동화식당",category:"한식",address:"남대문시장 갈치조림골목",rating:4.4,price:14000,walk:11,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","팀점심맛집"],menu:"갈치조림",desc:"갈치조림이 당길 때 고려할 남대문시장 노포.",estimated:true},
+ {name:"희락갈치",category:"한식",address:"남대문시장 갈치조림골목",rating:0,price:14000,walk:11,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","팀점심맛집"],menu:"갈치조림",desc:"남대문시장 갈치조림 골목의 오래된 선택지.",estimated:true},
+ {name:"닭진미강원집",category:"한식",address:"남대문시장",rating:0,price:12000,walk:11,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","낮술맛집","물고기제외"],menu:"닭곰탕·닭요리",desc:"닭곰탕과 닭요리로 유명한 남대문시장 노포.",estimated:true},
+ {name:"한순자손칼국수",category:"한식",address:"남대문시장 칼국수골목",rating:0,price:9000,walk:11,meal:["lunch"],party:["solo","team"],capacity:4,tags:["아재맛집","팀점심맛집"],menu:"칼국수",desc:"남대문시장 칼국수골목의 대표적인 한 끼.",estimated:true},
+ {name:"은호식당",category:"한식",address:"남대문시장 인근",rating:0,price:18000,walk:12,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","해장맛집","접대맛집","물고기제외"],menu:"꼬리곰탕",desc:"꼬리곰탕으로 알려진 오래된 남대문 노포.",estimated:true},
+ {name:"진주집",category:"한식",address:"남대문시장 인근",rating:0,price:12000,walk:12,meal:["lunch"],party:["solo","team"],capacity:4,tags:["아재맛집","해장맛집"],menu:"해장국",desc:"해장이 필요한 점심에 떠올릴 수 있는 남대문시장 식당.",estimated:true},
+ {name:"부원면옥",category:"한식",address:"남대문시장",rating:0,price:12000,walk:12,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","낮술맛집","팀점심맛집"],menu:"평양냉면·빈대떡",desc:"평양냉면과 빈대떡으로 유명한 남대문시장 노포.",estimated:true},
+ {name:"애성회관 한우곰탕",category:"한식",address:"남대문·북창동 인근",rating:4.4,price:14000,walk:13,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","해장맛집","접대맛집","물고기제외"],menu:"한우곰탕",desc:"깔끔한 곰탕. 혼밥부터 팀점심까지 무난한 편.",estimated:true},
+ {name:"송옥",category:"한식",address:"북창동",rating:0,price:12000,walk:13,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","팀점심맛집"],menu:"메밀국수·돈가스",desc:"오래된 북창동 메밀국수 노포.",estimated:true},
+ {name:"농민백암순대 시청직영점",category:"한식",address:"북창동·시청역 인근",rating:4.4,price:12000,walk:14,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","해장맛집","물고기제외"],menu:"순대국",desc:"북창동 직장인 점심의 대표적인 국밥 후보.",estimated:true},
+ {name:"숭례도담",category:"한식",address:"북창동·시청역 인근",rating:4.4,price:16000,walk:14,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["낮술맛집","팀점심맛집","접대맛집","물고기제외"],menu:"보쌈·한식",desc:"보쌈 중심으로 팀 식사나 가벼운 접대에도 활용하기 좋은 후보.",estimated:true},
+ {name:"풍년닭도리탕",category:"한식",address:"북창동",rating:4.7,price:15000,walk:14,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["아재맛집","낮술맛집","스트레스해소","물고기제외"],menu:"닭볶음탕",desc:"매콤한 닭볶음탕이 당기는 날의 스트레스 해소용.",estimated:true},
+ {name:"북창옥",category:"한식",address:"북창동",rating:4.7,price:14000,walk:14,meal:["lunch","dinner"],party:["solo","team","group"],capacity:8,tags:["아재맛집","해장맛집","물고기제외"],menu:"돼지국밥",desc:"해장과 든든한 점심에 적합한 돼지국밥.",estimated:true},
+ {name:"북촌손두부",category:"한식",address:"북창동",rating:4.2,price:12000,walk:14,meal:["lunch"],party:["solo","team"],capacity:4,tags:["마운자로인 맛집","팀점심맛집","물고기제외"],menu:"두부요리",desc:"과식 부담이 적고 두부 중심으로 고르기 좋은 점심.",estimated:true},
+ {name:"왕비집",category:"고기",address:"북창동·시청역 인근",rating:0,price:18000,walk:14,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["팀점심맛집","접대맛집","물고기제외"],menu:"한식·고기",desc:"여럿이 먹기 좋은 고기 중심 식사 후보.",estimated:true},
+ {name:"도누각",category:"고기",address:"북창동·시청역 인근",rating:0,price:18000,walk:14,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["팀점심맛집","물고기제외"],menu:"돼지고기",desc:"고기류가 당기는 날의 팀점심 후보.",estimated:true},
+ {name:"남파랑국밥",category:"한식",address:"북창동·시청역 인근",rating:0,price:12000,walk:14,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","해장맛집","물고기제외"],menu:"국밥",desc:"빠르고 든든하게 먹고 싶은 날의 국밥 후보.",estimated:true},
+ {name:"이북만두",category:"한식",address:"시청역 인근",rating:0,price:14000,walk:15,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["아재맛집","팀점심맛집","물고기제외"],menu:"만두·만둣국",desc:"만두와 국물이 당기는 날의 시청권 한식 후보.",estimated:true},
+ {name:"무교동북어국집",category:"한식",address:"시청·무교동 인근",rating:0,price:10000,walk:18,meal:["lunch"],party:["solo","team"],capacity:4,tags:["아재맛집","해장맛집"],menu:"북엇국",desc:"전형적인 해장 점심. 속 편한 국물이 필요한 날.",estimated:true},
+ {name:"대륙중화요리",category:"중식",address:"북창동·시청역 인근",rating:0,price:13000,walk:15,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["아재맛집","낮술맛집","스트레스해소","물고기제외"],menu:"중식",desc:"중식과 반주가 같이 생각나는 날의 북창동 후보.",estimated:true},
+ {name:"이가네양꼬치 북창동점",category:"중식",address:"북창동",rating:4.7,price:18000,walk:15,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["낮술맛집","스트레스해소","물고기제외"],menu:"양꼬치",desc:"매콤한 중식과 양꼬치가 당기는 날.",estimated:true},
+ {name:"멘무샤",category:"일식",address:"북창동",rating:4.3,price:12000,walk:15,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["팀점심맛집","물고기제외"],menu:"라멘",desc:"라멘 한 그릇이 당기는 날의 북창동 선택지.",estimated:true},
+ {name:"이자카야 나무 시청점",category:"일식",address:"시청역·북창동 인근",rating:3.8,price:20000,walk:16,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["낮술맛집","접대맛집"],menu:"이자카야",desc:"개별룸이 필요한 팀 식사나 저녁 자리 후보.",estimated:true},
+ {name:"김수사 신세계백화점 본점",category:"일식",address:"신세계백화점 본점",rating:4.4,price:30000,walk:9,meal:["lunch","dinner"],party:["team"],capacity:4,tags:["접대맛집","마운자로인 맛집"],menu:"스시·일식",desc:"조금 더 깔끔한 일식이 필요한 날.",estimated:true},
+ {name:"스시바 신세계백화점 본점",category:"일식",address:"신세계백화점 본점",rating:3.8,price:25000,walk:9,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["접대맛집","마운자로인 맛집"],menu:"스시",desc:"백화점 안에서 간단히 일식으로 정리하고 싶은 날.",estimated:true},
+ {name:"오제제",category:"일식",address:"시청·북창동 인근",rating:0,price:16000,walk:15,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["팀점심맛집","물고기제외"],menu:"돈카츠·일식",desc:"돈카츠 계열이 당기는 날의 깔끔한 점심 후보.",estimated:true},
+ {name:"바른돈까스",category:"일식",address:"회현역 인근",rating:3.3,price:12000,walk:9,meal:["lunch"],party:["solo","team"],capacity:4,tags:["팀점심맛집","물고기제외"],menu:"돈까스",desc:"회현역권에서 무난하게 돈까스가 당길 때.",estimated:true},
+ {name:"남대문잔치집",category:"일식",address:"남대문시장 인근",rating:3.8,price:11000,walk:11,meal:["lunch"],party:["solo","team"],capacity:4,tags:["아재맛집","물고기제외"],menu:"돈까스",desc:"남대문권에서 비교적 편하게 돈까스를 먹고 싶은 날.",estimated:true},
+ {name:"우모촌",category:"일식",address:"회현역 인근",rating:3.6,price:11000,walk:10,meal:["lunch"],party:["solo","team"],capacity:4,tags:["팀점심맛집"],menu:"메밀소바",desc:"메밀소바처럼 가볍고 시원한 메뉴가 당기는 날.",estimated:true},
+ {name:"호프광장",category:"양식",address:"회현역 인근",rating:0,price:11000,walk:8,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["낮술맛집","팀점심맛집"],menu:"돈까스·호프",desc:"점심에는 돈까스, 저녁에는 가볍게 한잔하기 좋은 타입.",estimated:true},
+ {name:"더 퍼스트 서래향 시청점",category:"중식",address:"시청역 인근",rating:4.9,price:17000,walk:15,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["접대맛집","팀점심맛집","물고기제외"],menu:"중식",desc:"조금 더 깔끔한 중식이 필요한 날의 접대 후보.",estimated:true},
+ {name:"크리스탈제이드",category:"중식",address:"시청·소공동 인근",rating:0,price:20000,walk:16,meal:["lunch","dinner"],party:["team","group"],capacity:8,tags:["접대맛집","팀점심맛집"],menu:"중식",desc:"외부 손님과 함께 가기에도 무난한 중식 후보.",estimated:true},
+ {name:"띤띤",category:"아시안",address:"시청·소공동 인근",rating:0,price:14000,walk:16,meal:["lunch","dinner"],party:["solo","team"],capacity:4,tags:["마운자로인 맛집","팀점심맛집"],menu:"베트남요리",desc:"쌀국수나 베트남 음식이 당기는 날.",estimated:true},
+ {name:"스패뉴",category:"양식",address:"시청·소공동 인근",rating:0,price:17000,walk:16,meal:["lunch","dinner"],party:["team"],capacity:4,tags:["접대맛집","팀점심맛집","물고기제외"],menu:"스페인·양식",desc:"매일 한식이 지겨운 날의 양식 선택지.",estimated:true},
+ {name:"샐러디 서울 시청",category:"샐러드",address:"시청역 인근",rating:4.7,price:10000,walk:17,meal:["lunch","dinner"],party:["solo"],capacity:2,tags:["마운자로인 맛집","물고기제외"],menu:"샐러드·웜볼",desc:"양 조절과 단백질 선택이 쉬운 가벼운 점심.",estimated:true}
 ];
 
+
+
+// remove accidental duplicates
 const data = restaurants.filter((r,i,a)=>a.findIndex(x=>x.name===r.name)===i);
 
-const foodCats = ["전체","한식","백반","중식","일식","고기","분식","샐러드"];
+const foodCats = ["전체","한식","백반","중식","일식","고기","분식","샐러드","아시안","양식"];
 const specials = ["전체","아재맛집","낮술맛집","해장맛집","스트레스해소","마운자로인 맛집","물고기제외","팀점심맛집","접대맛집"];
 let food="전체", special="전체", sortBy="distance";
 let excludeYesterday=false, excludeRecent=false;
@@ -453,15 +483,15 @@ function render(){
           <div class="name">${r.name}</div>
           <div class="meta">${r.address} · 최대 ${r.capacity || 4}명 추천</div>
         </div>
-        <div class="rating">${r.rating ? `★ ${r.rating}` : `NEW`}</div>
+        <div class="rating">${r.rating ? `★ ${r.rating}` : `검증중`}</div>
       </div>
       <div class="tags">
         <span class="tag">${r.category}</span>
         ${r.tags.map(t=>`<span class="tag ${["아재맛집","낮술맛집","해장맛집","스트레스해소","마운자로인 맛집","접대맛집"].includes(t)?'hot':''}">${t}</span>`).join("")}
       </div>
       <div class="info">
-        <div class="box"><b>🚶 ${r.walk}분</b><span>퇴계로 24 기준</span></div>
-        <div class="box"><b>💰 ${money(r.price)}</b><span>${priceLabel(r.price)}</span></div>
+        <div class="box"><b>🚶 ${r.estimated?"약 ":""}${r.walk}분</b><span>퇴계로 24 기준</span></div>
+        <div class="box"><b>💰 ${r.estimated?"약 ":""}${money(r.price)}</b><span>${priceLabel(r.price)}</span></div>
         <div class="box"><b>🍽 ${r.menu}</b><span>대표 유형</span></div>
       </div>
       <div class="desc">${r.desc}${r.custom?'<span class="badge-new">CR 등록</span>':''}</div>
@@ -499,7 +529,7 @@ function noDebatePick(){
   const quote=noDebateQuotes[Math.floor(Math.random()*noDebateQuotes.length)];
   document.getElementById("forcedName").textContent=r.name;
   document.getElementById("forcedTags").innerHTML=
-    `🚶 도보 약 ${r.walk}분 · 💰 ${money(r.price)}${r.rating?` · ★ ${r.rating}`:""}<br>${r.tags.join(" · ")}<br><br>${r.desc}`;
+    `🚶 도보 약 ${r.walk}분 · 💰 약 ${money(r.price)}${r.rating?` · ★ ${r.rating}`:""}<br>${r.tags.join(" · ")}<br><br>${r.desc}`;
   document.getElementById("forcedQuote").textContent=quote;
   document.getElementById("forcedGoBtn").onclick=()=>{
     visitRestaurant(r.name);
@@ -517,7 +547,7 @@ function randomPick(){
   if(!arr.length){alert("조건에 맞는 식당이 없어요. 필터를 조금 풀어주세요!");return;}
   const r=arr[Math.floor(Math.random()*arr.length)];
   document.getElementById("pickName").textContent=r.name;
-  document.getElementById("pickTags").innerHTML=`🚶 도보 약 ${r.walk}분 · 💰 ${money(r.price)} · ★ ${r.rating}<br>${r.tags.join(" · ")}<br><br>${r.desc}`;
+  document.getElementById("pickTags").innerHTML=`🚶 도보 약 ${r.walk}분 · 💰 약 ${money(r.price)} · ★ ${r.rating}<br>${r.tags.join(" · ")}<br><br>${r.desc}`;
   document.getElementById("decideBtn").onclick=()=>visitRestaurant(r.name);
   document.getElementById("modal").classList.add("show");
 }
